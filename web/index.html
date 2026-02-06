@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0A0E21">
+    <title>🧭 AlinhadorPtP Telecom</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🧭 AlinhadorPtP Telecom</h1>
+        </header>
+
+        <main>
+            <!-- Compass Display -->
+            <div class="compass-container">
+                <div class="compass-circle" id="compassCircle">
+                    <div class="direction-label" style="top: 10px;">N</div>
+                    <div class="direction-label" style="bottom: 10px;">S</div>
+                    <div class="direction-label" style="left: 10px;">O</div>
+                    <div class="direction-label" style="right: 10px;">L</div>
+
+                    <div class="compass-arrow" id="compassArrow">
+                        <svg width="80" height="80" viewBox="0 0 80 80">
+                            <path d="M40 10 L35 45 L40 40 L45 45 Z" fill="currentColor" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="status-message" id="statusMessage">Aguardando coordenadas...</div>
+
+                <div id="compassInfo" class="info-box" style="display: none;">
+                    <div class="info-item">
+                        <span class="info-label">Direção alvo:</span>
+                        <span class="info-value" id="targetBearing">--°</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Heading atual:</span>
+                        <span class="info-value" id="currentHeading">--°</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distância:</span>
+                        <span class="info-value" id="distance">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Form -->
+            <div class="input-card">
+                <h2>Coordenadas de Destino</h2>
+                <div class="input-group">
+                    <label for="latitude">Latitude</label>
+                    <input type="number" step="any" id="latitude" placeholder="Ex: -23.5505">
+                </div>
+                <div class="input-group">
+                    <label for="longitude">Longitude</label>
+                    <input type="number" step="any" id="longitude" placeholder="Ex: -46.6333">
+                </div>
+            </div>
+
+            <!-- Current Position -->
+            <div class="info-card" id="currentPosCard" style="display: none;">
+                <h3>Posição Atual</h3>
+                <div class="position-info">
+                    <span>📍 Lat: <span id="currentLat">--</span></span>
+                    <span>Lon: <span id="currentLon">--</span></span>
+                </div>
+            </div>
+
+            <!-- Control Button -->
+            <button class="control-button" id="controlButton">
+                <span id="buttonText">Iniciar Rastreamento</span>
+            </button>
+
+            <!-- Permission Button for iOS -->
+            <button class="permission-button" id="permissionButton" style="display: none;">
+                Permitir Acesso aos Sensores
+            </button>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Register Service Worker for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((registration) => {
+                        console.log('✅ Service Worker registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('❌ Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>
